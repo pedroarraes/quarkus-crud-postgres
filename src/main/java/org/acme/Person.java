@@ -81,8 +81,6 @@ public class Person extends PanacheEntity {
         entity.setLastName(person.lastName);
 
         Person.persist(entity);
-        
+
     }
-
-
 }

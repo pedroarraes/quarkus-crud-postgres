@@ -244,7 +244,7 @@ crud=#
 
 3. Validation dataset:
 ```bash
-$ select * from person;
+crud=# select * from person;
 ```
 
 ```console
@@ -253,4 +253,107 @@ $ select * from person;
   1 | 03/17/1983 | Pedro     | Arraes
   3 | 04/25/1992 | Marta     | Campos
 (2 rows)
+```
+
+## Understanding Java code
+In this session, you will gain an understanding of Java code, annotations, and the communication between Panache and RESTEasy Reactive extensions in Quarkus."
+
+### Java Classes
+
+### Person (#person)
+
+This is our an entity class. The entity class refers to a class that represents a persistent data entity in an object-relational mapping (ORM) framework, typically used in the context of databases. An entity class is designed to map to a database table, where each instance of the class represents a record (or row) in that table.In this case, we extend the PanacheEntity class, which implements the fundamental CRUD methods.
+
+Let's explore some annotations:
+
+* @Entity - Mark the Java class as a data entity in an object-relational database. With these annotations, the table structure can be automatically created.
+* @Transactional - Indicates that the Java method will perform a data transaction, including adding, updating, or deleting data.
+
+```java
+package org.acme;
+
+import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import jakarta.persistence.Entity;
+import jakarta.transaction.Transactional;
+import jakarta.ws.rs.NotFoundException;
+
+@Entity
+public class Person extends PanacheEntity {
+   
+    private String firstName;
+    private String lastName;
+    private String birth;
+
+    public Person() {
+        
+    }
+
+    public String getFirstName() {
+        return this.firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+    
+    public String getLastName() {
+        return this.lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getBirth() {
+        return this.birth;
+    }
+
+    public void setBirth(String birth) {
+        this.birth = birth;
+    }
+
+    @Transactional
+    public static void create(Person person) {
+        Person newPerson = new Person();
+        
+        newPerson.setFirstName(person.getFirstName());
+        newPerson.setLastName(person.getLastName());
+        newPerson.setBirth(person.getBirth());
+        
+        try {
+            newPerson.persist();    
+        } catch (Exception e) {
+            e.addSuppressed(e);
+        }
+    }
+
+    @Transactional
+    public static void deletePerson(String id) {
+        
+        Person person = Person.findById(id);
+
+        if(person == null) {
+            throw new NotFoundException();
+        }
+
+        Person.deleteById(id);
+    }
+
+    @Transactional
+    public static void updatePerson(Person person) {
+
+        Person entity = Person.findById(person.id);
+
+        if(entity == null) {
+            throw new NotFoundException();
+        }
+
+        entity.setBirth(person.birth);
+        entity.setFirstName(person.firstName);
+        entity.setLastName(person.lastName);
+
+        Person.persist(entity);
+
+    }
+}
 ```
