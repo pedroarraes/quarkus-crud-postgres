@@ -94,4 +94,6 @@ Hibernate:
 ```
 
 ## Testing API application
-For this
+"For this tutorial, we will use 'curl' to test the application's API. However, if you prefer, you can also access the Swagger UI at http://localhost:8080/q/swagger-ui to interact with the APIs."
+
+image::image.png
