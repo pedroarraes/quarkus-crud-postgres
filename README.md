@@ -1,10 +1,4 @@
-podman exec -it postgresql_database bash
 
-psql
-
-\c crud
-
-select * from person;
 
 # How to create a CRUD application using Quarkus Native + PostgreSQL Database
 This smart start demonstrates the utilization of a PostgreSQL Database for creating a Quarkus native cloud application. The project leverages Quarkus, a high-performance Java framework known as the Supersonic Subatomic Java Framework. To explore further details about Quarkus, please visit its official website: https://quarkus.io/."
@@ -23,13 +17,13 @@ This smart start demonstrates the utilization of a PostgreSQL Database for creat
     * [Running container](#running-container)
 * [Executing the application in development mode](#executing-the-application-in-development-mode)
 * [Testing API application](#testing-api-application)
-* [Validating Data]()
+* [Validating Data](#validating-data)
 * [Understanding Java code](#understanding-java-code)
     * [Java Classes](#java-classes)
         * [Person](#person)
         * [PersonResource](#personcontextinitializers)
     * [Application.properties](#application-properties)    
-* [Compiling in Quarkus Cloud Native]()   
+* [Compiling in Quarkus Cloud Native](#va)   
     * [Running the application in native mod]() 
 * [Related Guides](#Related-guides)    
 
@@ -220,4 +214,43 @@ Hibernate:
         Person 
     where
         id=?
+```
+
+## Validating Data
+Now let's verify in our database if all the data is correct based on the tests conducted.
+
+1. Accessing the PostgreSQL container:
+```bash
+$ podman exec -it postgresql_database bash
+$ psql
+```
+
+```console
+psql (15.2)
+Type "help" for help.
+
+postgres=# 
+```
+
+2. Accessing crud database:
+```bash
+postgres=# \c crud
+```
+
+```console
+You are now connected to database "crud" as user "postgres".
+crud=# 
+```
+
+3. Validation dataset:
+```bash
+$ select * from person;
+```
+
+```console
+ id |   birth    | firstname | lastname 
+----+------------+-----------+----------
+  1 | 03/17/1983 | Pedro     | Arraes
+  3 | 04/25/1992 | Marta     | Campos
+(2 rows)
 ```
