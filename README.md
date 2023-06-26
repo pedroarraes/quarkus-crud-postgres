@@ -7,8 +7,7 @@ psql
 select * from person;
 
 # How to create a CRUD application using Quarkus Native + PostgreSQL Database
-
-This smart start demostrates how to use a PostgreSQL Database to create a quarkus native cloud application. This project uses Quarkus, the Supersonic Subatomic Java Framework. If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
+This smart start demonstrates the utilization of a PostgreSQL Database for creating a Quarkus native cloud application. The project leverages Quarkus, a high-performance Java framework known as the Supersonic Subatomic Java Framework. To explore further details about Quarkus, please visit its official website: https://quarkus.io/."
 
 ## Requeriments
 * OpenJDK 17
@@ -22,7 +21,7 @@ This smart start demostrates how to use a PostgreSQL Database to create a quarku
 * [Staring PostgreSQL](#staring-postgreSQL)
     * [Obtaining PostgreSQL Red Hat image](#obtaining-postgresql-red-hat-image)
     * [Running container](#running-container)
-* [Running the application in dev mode](#running-the-application-in-dev-mode)
+* [Executing the application in development mode](#executing-the-application-in-development-mode)
 * [Testing API application](#testing-api-application)
 * [Validating Data]()
 * [Understanding Java code](#understanding-java-code)
@@ -63,12 +62,36 @@ Copying config dbca9dc9de done
 Writing manifest to image destination
 Storing signatures
 dbca9dc9de346510bfdb36dc72f5610e379a6e05bf6323392ef205e179326115
-```
-## Running container
-To run a container in the background, use the following command:
-```shell
-$ podman run -d --name postgresql_database -e POSTGRESQL_USER=admin -e POSTGRESQL_PASSWORD=admin -e POSTGRESQL_DATABASE=crud -p 5432:5432 registry.redhat.io/rhel9/postgresql-15:1-14
-```
+```testing-api-application
 ```console
-a3b5268012e174c0bf2853e0e4ae8edbbfe01cdab23b6598a595ca1989547d57
+Hibernate: 
+    drop table if exists Person cascade
+__  ____  __  _____   ___  __ ____  ______ 
+ --/ __ \/ / / / _ | / _ \/ //_/ / / / __/ 
+ -/ /_/ / /_/ / __ |/ , _/ ,< / /_/ /\ \   
+--\___\_\____/_/ |_/_/|_/_/|_|\____/___/   
+2023-06-26 12:22:44,577 WARN  [org.hib.eng.jdb.spi.SqlExceptionHelper] (JPA Startup Thread) SQL Warning Code: 0, SQLState: 00000
+
+2023-06-26 12:22:44,579 WARN  [org.hib.eng.jdb.spi.SqlExceptionHelper] (JPA Startup Thread) table "person" does not exist, skipping
+Hibernate: 
+    drop sequence if exists Person_SEQ
+2023-06-26 12:22:44,580 WARN  [org.hib.eng.jdb.spi.SqlExceptionHelper] (JPA Startup Thread) SQL Warning Code: 0, SQLState: 00000
+2023-06-26 12:22:44,581 WARN  [org.hib.eng.jdb.spi.SqlExceptionHelper] (JPA Startup Thread) sequence "person_seq" does not exist, skipping
+Hibernate: 
+    create sequence Person_SEQ start with 1 increment by 50
+Hibernate: 
+    create table Person (
+        id bigint not null,
+        birth varchar(255),
+        firstName varchar(255),
+        lastName varchar(255),
+        primary key (id)
+    )
+
+2023-06-26 12:22:44,675 INFO  [io.quarkus] (Quarkus Main Thread) quarkus-crud-postgres 1.0.0-SNAPSHOT on JVM (powered by Quarkus 3.1.2.Final) started in 2.427s. Listening on: http://localhost:8080
+2023-06-26 12:22:44,677 INFO  [io.quarkus] (Quarkus Main Thread) Profile dev activated. Live Coding activated.
+2023-06-26 12:22:44,677 INFO  [io.quarkus] (Quarkus Main Thread) Installed features: [agroal, cdi, hibernate-orm, hibernate-orm-panache, jdbc-postgresql, narayana-jta, resteasy-reactive, resteasy-reactive-jackson, resteasy-reactive-jsonb, smallrye-context-propagation, smallrye-openapi, swagger-ui, vertx]
 ```
+
+## Testing API application
+For this
