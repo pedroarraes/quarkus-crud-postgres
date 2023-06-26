@@ -101,9 +101,8 @@ image::image.png
 
 
 1. Performing a new data insertion:
-
 ```shell
-curl -X 'POST' \
+$ curl -X 'POST' \
   'http://localhost:8080/person' \
   -H 'accept: */*' \
   -H 'Content-Type: application/json' \
@@ -122,4 +121,103 @@ Hibernate:
         (birth,firstName,lastName,id) 
     values
         (?,?,?,?)
+```
+
+2. Retrieving all the content from the table:
+```shell
+$ curl -X 'GET' \
+  'http://localhost:8080/person' \
+  -H 'accept: application/json'
+```
+
+```console
+[{"id":1,"birth":"03/17/1983","firstName":"Pedro","lastName":"Arraes"},{"id":2,"birth":"04/25/1991","firstName":"Joe","lastName":"Santos"},{"id":3,"birth":"04/25/11992","firstName":"Marta","lastName":"Campos"}]
+```
+
+```sql
+Hibernate: 
+    select
+        p1_0.id,
+        p1_0.birth,
+        p1_0.firstName,
+        p1_0.lastName 
+    from
+        Person p1_0
+```
+
+3. Updating incorrect data
+```shell
+$ curl -X 'PUT' \
+  'http://localhost:8080/person' \
+  -H 'accept: */*' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "id": 3,
+  "firstName": "Marta",
+  "lastName": "Campos",
+  "birth": "04/25/1992"
+}'
+```
+
+```sql
+Hibernate: 
+    select
+        p1_0.id,
+        p1_0.birth,
+        p1_0.firstName,
+        p1_0.lastName 
+    from
+        Person p1_0 
+    where
+        p1_0.id = any (?)
+
+Hibernate: 
+    update
+        Person 
+    set
+        birth=?,
+        firstName=?,
+        lastName=? 
+    where
+        id=?
+```
+
+4. Fetching table content by ID:
+```shell
+$ curl -X 'GET' \
+  'http://localhost:8080/person/1' \
+  -H 'accept: application/json'
+```
+
+```console
+{"id":1,"birth":"03/17/1983","firstName":"Pedro","lastName":"Arraes"
+```
+
+```sql
+Hibernate: 
+    select
+        p1_0.id,
+        p1_0.birth,
+        p1_0.firstName,
+        p1_0.lastName 
+    from
+        Person p1_0 
+    where
+        p1_0.id = any (?)
+
+```
+
+5. Deleting table content by ID:
+```shell
+$ curl -X 'DELETE' \
+  'http://localhost:8080/person/2' \
+  -H 'accept: */*'
+```
+```sql
+Hibernate: 
+    delete 
+    from
+        Person 
+    where
+        id=?
 ```
