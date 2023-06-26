@@ -98,3 +98,28 @@ Hibernate:
 
 image::image.png
 ![alt text](https://github.com/pedroarraes/quarkus-crud-postgres/blob/main/image.png?raw=true)
+
+
+1. Performing a new data insertion:
+
+```shell
+curl -X 'POST' \
+  'http://localhost:8080/person' \
+  -H 'accept: */*' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "id": 0,
+  "firstName": "Pedro",
+  "lastName": "Arraes",
+  "birth": "03/17/1983"
+}'
+```
+```sql
+Hibernate: 
+    insert 
+    into
+        Person
+        (birth,firstName,lastName,id) 
+    values
+        (?,?,?,?)
+```
